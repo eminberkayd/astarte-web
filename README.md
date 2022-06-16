@@ -11,6 +11,6 @@ to the Arduino. We take measurements from these and send the data to the Raspber
 the arduino and arduino open its nozzle for 3 seconds to spray pesticide to the plant. 
 
 
-![The Project Poster](astarte_pano.png) <center>The Project Poster</center>
+![The Project Poster](astarte_pano.png) <p align="center">The Project Poster</p>
 
-![The Astarte Team and Our Advisor](astarteTeam.jpeg) <center>The Astarte Team and Our Advisor</center>
+![The Astarte Team and Our Advisor](astarteTeam.jpeg) <p align="center">The Astarte Team and Our Advisor</p>
