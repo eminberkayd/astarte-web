@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGB LED Settings</title>
+    <style>
+        body {
+            text-align: center;
+            width: auto;
+            height: auto;
+            font-size: 4ch;
+        }
+
+    </style>
+</head>
+<body>
+    <form action="/rgbLED" method="post">
+        <label for="red" style="color: red;">RED</label>
+        <input style="width: 80%;"type="range" max="255" min="0" id="red" name="red" step="1">
+        <p id="redValue">{{red_last}}</p>
+        <br>
+        <label for="green" style="color: green;">GREEN</label>
+        <input style="width:80%;" type="range" max="255" min="0" id="green" name="green" step="1">
+        <p id="greenValue">{{green_last}}</p>
+        <br>
+        <label for="blue" style="color: blue;">BLUE</label>
+        <input style="width:80%;" type="range" max="255" min="0" id="blue" name="blue" step="1">
+        <p id="blueValue">{{blue_last}}</p>
+        <br>
+        <input style="width: 50%; height: auto;" type="submit" value="SET"> 
+        
+    </form>
+    <script>
+        var red = document.getElementById("red");
+        red.defaultValue = document.getElementById("redValue").innerHTML;
+        document.getElementById("redValue").innerHTML = red.value // display the default value
+        var green = document.getElementById("green");
+        green.defaultValue = document.getElementById("greenValue").innerHTML;
+        document.getElementById("greenValue").innerHTML = green.value;
+        var blue = document.getElementById("blue");  
+        blue.defaultValue = document.getElementById("blueValue").innerHTML; 
+        document.getElementById("blueValue").innerHTML = blue.value;
+        red.oninput = function() { // Update the current slider value (each time you drag the slider handle)
+            document.getElementById("redValue").innerHTML = this.value
+        }
+        green.oninput = function() {
+            document.getElementById("greenValue").innerHTML = this.value
+        }
+        blue.oninput = function() {
+            document.getElementById("blueValue").innerHTML = this.value
+        }
+
+    </script>
+</body>
+</html>
