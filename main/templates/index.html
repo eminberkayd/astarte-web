@@ -1,0 +1,265 @@
+<!-- render template dediğin zaman app.py dosyasının olduğu dizindeki templates klasörünün içine bakıyor!
+Flask ile olanı github.io'da çalıştıramıyormuşuz. Çünkü orası sadece static page content içinmiş.
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astarte Inc.</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/images/astarte_logo.png">
+</head>
+<body>
+    
+    <center><img style="width: 25%; height: 25%" src="/static/images/astarte_logo.png" alt="Astarte Inc."></center>
+    <h3 style="text-align: center;">Astarte Inc.</h3>
+    <hr>
+
+    <p style="text-align:center; background-color: white"> Last Update: {{currentTime}} </p>
+    
+    <table>
+        <tr>
+            <td class="features">Air Temperature:</td>
+            <td class="value">{{airTemp}}</td>
+        </tr>
+
+        <tr>
+            <td class="features">Apparent Temperature:</td>
+            <td class="value">{{temp_felt}}</td>
+        </tr>
+
+        <tr>
+            <td class="features">Water Temperature:</td>
+            <td class="value">{{waterTemp}}</td>
+        </tr>
+
+        <tr>
+            <td class="features">PPM Value:</td>
+            <td class="value">{{ppm}}</td>
+        </tr>
+        
+        <tr>
+            <td class="features">Light Intensity :</td>
+            <td class="value">{{light}} lux</td>
+        </tr>
+        <tr>
+            <td class="features">Red:</td>
+            <td class="value">{{red}}</td>
+        </tr>
+        <tr>
+            <td class="features">Green:</td>
+            <td class="value">{{green}}</td>
+        </tr>
+        <tr>
+            <td class="features">Blue:</td>
+            <td class="value">{{blue}}</td>
+        </tr>
+        <tr>
+            <td class="features">Water Level:</td>
+            <td class="value">{{waterLevel}} cm</td>
+        </tr>
+        
+        <tr>
+            <td class="features">Water Conductivity:</td>
+            <td class="value">{{water_cond}}</td>
+        </tr>
+        <tr>
+            <td class="features">Humidity:</td>
+            <td class="value">{{humidity}}</td>
+        </tr>
+
+
+    </table>
+    <br>
+    <center style="background-color:#404040 ;"><span style="font-size: 20px; padding-right: 2%;color:white "text-align="center" >Autonomous Mode</span><span><label class="switch">
+        <input type="checkbox" name="heating" id="auto" onchange="autonomous(this)" checked>
+        <span class="slider round"></span>
+      </label></span> </center>
+      <hr>
+
+    <center><span style="font-size: 20px; padding-right: 2%;"text-align="center" >Heating Fan</span><span><label class="switch">
+        <input type="checkbox" name="heating" id="heating" onchange="heating(this)">
+        <span class="slider round"></span>
+      </label></span> </center>
+      <hr>
+      <center><span style="font-size: 20px; padding-right: 2%;"text-align="center">Cooling Fan</span><span><label class="switch">
+        <input type="checkbox" name="cooling" id="cooling" onchange="cooling(this)">
+        <span class="slider round"></span>
+      </label></span> </center>
+      <hr>
+      <center><span style="font-size: 20px; padding-right: 2%;"text-align="center">Nutrition Pump</span><span><label class="switch">
+        <input type="checkbox" name="nutrient" id="nutrition" onchange="nutrition(this)">
+        <span class="slider round"></span>
+      </label></span> </center>
+      <hr>
+      <center><span style="font-size: 20px; padding-right: 2%;"text-align="center">Water Pump</span><span><label class="switch">
+        <input type="checkbox" name="waterPump" id="waterPump" onchange="waterPump(this)">
+        <span class="slider round"></span>
+      </label></span> </center>
+      <hr>
+      <center><span style="font-size: 20px; padding-right: 2%;"text-align="center">Water Dump</span><span><label class="switch">
+        <input type="checkbox" name="waterDump" id="waterDump" onchange="waterDump(this)">
+        <span class="slider round"></span>
+      </label></span> </center>
+      <hr>
+      <center><span style="font-size: 20px; padding-right: 2%;"text-align="center">Water Mixer</span><span><label class="switch">
+        <input type="checkbox" name="waterMixer" id="waterMixer" onchange="waterMixer(this)">
+        <span class="slider round"></span>
+      </label></span> </center>
+      <hr>
+      
+
+
+    <center><button onclick="refreshData()">Refresh Data</button></center>
+    <center><button onclick="imageSection()">Last Taken Images</button></center>
+    <center><button onclick="contactSection()">Contact</button></center>
+    <center><button onclick="companyLoc()">Our Location</button></center>
+
+
+    <script>
+        
+        window.onload = function(){
+            if(parseInt('{{ex_auto}}')){
+            document.getElementById("auto").checked = true;}
+            else {document.getElementById("auto").checked = false;}
+            if(parseInt('{{ex_heating}}')){
+            document.getElementById("heating").checked = true;}
+            else {document.getElementById("heating").checked = false;}
+            if(parseInt('{{ex_cooling}}')){
+                document.getElementById("cooling").checked = true;
+            }
+            else{document.getElementById("cooling").checked = false;}
+            if(parseInt('{{ex_waterMixer}}')){
+                document.getElementById("waterMixer").checked = true;
+            }
+            else {document.getElementById("waterMixer").checked = false;}
+            if(parseInt('{{ex_waterPump}}')){
+                document.getElementById("waterPump").checked = true;
+            }
+            else{document.getElementById("waterPump").checked = false;}
+            if(parseInt('{{ex_waterDump}}')){
+                document.getElementById("waterDump").checked = true;
+            }
+            else{document.getElementById("waterDump").checked = false;}
+            if(parseInt('{{ex_nutrition}}')){
+                document.getElementById("nutrition").checked = true;
+            }
+            else{document.getElementById("nutrition").checked = false;}
+            
+
+        }
+        setInterval(refreshData,10000);
+        function autonomous(value){
+            var http = new XMLHttpRequest();
+            http.open('POST','/',true);
+            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            
+            if(value.checked){
+                console.log("Autonomous mode enabled.");
+                http.send("auto=1");
+            }
+            else {console.log("Autonomous mode disabled.");
+                http.send("auto=0");}
+
+        }
+        function cooling(value){
+            var http = new XMLHttpRequest();
+            http.open('POST','/',true);
+            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            
+            if(value.checked){
+                console.log("Cooling Fan opened.");
+                http.send("cooling=1");
+            }
+            else {console.log("Cooling Fan closed.");
+                http.send("cooling=0");}
+        }
+        
+        function heating(value){
+            var http = new XMLHttpRequest();
+            http.open('POST','/',true);
+            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+           
+
+            if(value.checked){
+                console.log("Heating Fan opened.");
+                http.send("heating=1");
+            }
+            else {console.log("Heating Fan closed.");
+                 http.send("heating=0");}
+        }
+        function nutrition(value){
+            var http = new XMLHttpRequest();
+            http.open('POST','/',true);
+            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            
+
+            if(value.checked){
+                http.send("nutrition=1");
+                console.log("Nutrition Pump opened.");
+            }
+            else {console.log("Nutrition Pump closed.");
+            http.send("nutrition=0");}
+        }
+        function waterPump(value){
+            var http = new XMLHttpRequest();
+            http.open('POST','/',true);
+            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            
+
+            if(value.checked){
+                console.log("Water Pump opened.");
+                http.send("waterPump=1");
+            }
+            else {console.log("Water Pump closed.");
+            http.send("waterPump=0");}
+        }
+        function waterDump(value){
+            var http = new XMLHttpRequest();
+            http.open('POST','/',true);
+            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            
+
+            if(value.checked){
+                console.log("Water Dump opened.");
+                http.send("waterDump=1");
+            }
+            else {console.log("Water Dump closed.");
+                 http.send("waterDump=0");}
+        }
+        function waterMixer(value){
+            var http = new XMLHttpRequest();
+            http.open('POST','/',true);
+            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+            if(value.checked){
+                console.log("Water Mixer opened.");
+                http.send("waterMixer=1");
+
+            }
+            else {console.log("Water Mixer closed.");
+                    http.send("waterMixer=0");}
+        }
+
+        function refreshData(){
+            document.location.reload(false)
+        }
+        
+        function imageSection(){
+            window.location.href = "/takenimages" ;
+        }
+        function contactSection(){
+            window.location.href = "https://www.linkedin.com/company/astarte-smart-systems/"
+        }
+        function companyLoc(){
+            window.location.href = "https://goo.gl/maps/K58mq7ApSeEGgGBP8"
+        }
+    </script>
+</body>
+
+</html>
