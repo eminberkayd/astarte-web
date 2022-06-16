@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processing Section</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>h6 {
+            text-align: center;
+            font-size: 3ch;}
+            body {
+              text-align: center;
+            }
+            h3 {
+             font-size: 4ch;
+            
+            }
+            button {
+    text-align: center;
+    font-size: larger ;
+    width: 50%;
+    padding: 5px;
+    margin: 5px;
+    background-color:mediumseagreen;
+    border-radius: 20px;
+}
+        </style>
+</head>
+<body>
+    <center><button onclick="takeNewPhotos()">Take New Photos</button></center>
+    <center><button onclick="startRipeness()">Start Ripeness Detection Analysis</button></center>
+    <center><button onclick="startDisease()">Start Disease Detection Analysis</button></center>
+    <center><button onclick="manual()">Manual Control Page</button></center>
+      <hr>
+      <table>
+        <tr>
+            <td class="features">Unripe:</td>
+            <td class="value">{{unripe}}</td>
+        </tr>
+        <tr>
+            <td class="features">Semi Ripe:</td>
+            <td class="value">{{semiripe}}</td>
+        </tr>
+        <tr>
+            <td class="features">Ripe:</td>
+            <td class="value">{{ripe}}</td>
+        </tr>
+        <tr>
+            <td class="features">Total Strawberry:</td>
+            <td class="value">{{total}}</td>
+        </tr>
+        <tr>
+            <td class="features">Disease:</td>
+            <td class="value">{{disease}}</td>
+        </tr>
+        </table>
+        <hr>
+    <h3> Last Taken Images</h3>
+    <img src="/static/images/2022_06-14_1.jpg" style="width: 100%; height:100%">
+    <img src="/static/images/2022_06_14_2.jpg" style="width: 100%; height:100%">
+    <img src="/static/images/2022_06_14_3.jpg" style="width: 100%; height:100%">
+    <img src="/static/images/2022_06_14_4.jpg" style="width: 100%; height:100%">
+    <hr>
+    <h3>Ripeness Detection Results</h3>
+    <img src="/static/images/Ripeness_2022_06_14_1.jpg" alt="Ripeness Result" style="width: 100%; height:100%">
+    <img src="/static/images/Ripeness_2022_06_14_2.jpg" alt="Ripeness Result" style="width: 100%; height:100%">
+    <img src="/static/images/Ripeness_2022_06_14_3.jpg" alt="Ripeness Result" style="width: 100%; height:100%">
+    <img src="/static/images/Ripeness_2022_06_14_4.jpg" alt="Ripeness Result" style="width: 100%; height:100%">
+
+    <hr>
+    <h3>Disease Detection Results</h3>
+    <img src="/static/images/Disease_2022_06_14_1.jpg" alt="Disease Result" style="width: 100%; height:100%">
+    <img src="/static/images/Disease_2022_06_14_2.jpg" alt="Disease Result" style="width: 100%; height:100%">
+    <img src="/static/images/Disease_2022_06_14_3.jpg" alt="Disease Result" style="width: 100%; height:100%">
+    <img src="/static/images/Disease_2022_06_14_4.jpg" alt="Disease Result" style="width: 100%; height:100%">
+ 
+    <hr>
+    <script>
+      function manual(){
+        window.location.href = "/manualcontrol" ;
+      }
+      function takeNewPhotos(){
+        alert("New photos are being taken")
+        var http = new XMLHttpRequest();
+        http.open('POST','/takenimages',true);
+        http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        http.send("newPhoto=1")
+      }
+      function startRipeness(){
+        alert("Ripeness Analysis has started.. This may take up to 5 minutes")
+        var http = new XMLHttpRequest();
+        http.open('POST','/takenimages',true);
+        http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        http.send("startRipeness=1")
+      }
+      function startDisease(){
+        alert("Ripeness Analysis has started.. This may take up to 5 minutes")
+        var http = new XMLHttpRequest();
+        http.open('POST','/takenimages',true);
+        http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        http.send("startDisease=1")
+      }
+    </script>
+</body>
+</html>
+
